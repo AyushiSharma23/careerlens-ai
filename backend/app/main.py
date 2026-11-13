@@ -3,14 +3,15 @@
 from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, Response, UploadFile
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from app.database import Base, engine, get_db
 from app.matching import analyze_match
-from app.models import Analysis
+from app.models import Analysis, Application
 from app.parsing import PdfParsingError, extract_text_from_bytes
 from app.schemas import AnalysisRecord, AnalysisResult
+from app.tracker import router as tracker_router
 
 MAX_PDF_SIZE_BYTES = 5 * 1024 * 1024  # 5 MB
 
@@ -23,6 +24,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="CareerLens AI API", lifespan=lifespan)
+app.include_router(tracker_router)
 
 
 async def read_and_analyze(resume: UploadFile, job_description: str) -> dict:
@@ -105,6 +107,10 @@ def delete_analysis(analysis_id: int, db: Session = Depends(get_db)):
     analysis = db.get(Analysis, analysis_id)
     if analysis is None:
         raise HTTPException(status_code=404, detail="Analysis not found.")
+    # Keep any tracked applications, but remove their link to this analysis.
+    db.execute(
+        update(Application).where(Application.analysis_id == analysis_id).values(analysis_id=None)
+    )
     db.delete(analysis)
     db.commit()
     return Response(status_code=204)

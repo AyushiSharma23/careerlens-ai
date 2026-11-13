@@ -2,7 +2,7 @@
 
 from datetime import datetime, timezone
 
-from sqlalchemy import JSON, DateTime, Float, String, Text
+from sqlalchemy import JSON, DateTime, Float, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database import Base
@@ -29,3 +29,20 @@ class Analysis(Base):
     explanation: Mapped[list] = mapped_column(JSON)
     suggestions: Mapped[list] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+
+class Application(Base):
+    """One job application being tracked. It may be linked to a saved analysis."""
+
+    __tablename__ = "applications"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    analysis_id: Mapped[int | None] = mapped_column(ForeignKey("analyses.id"), default=None)
+    job_title: Mapped[str] = mapped_column(String(200))
+    company: Mapped[str] = mapped_column(String(200), default="")
+    status: Mapped[str] = mapped_column(String(20), default="Interested")
+    notes: Mapped[str] = mapped_column(Text, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, onupdate=utc_now
+    )
