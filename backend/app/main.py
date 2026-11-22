@@ -1,8 +1,10 @@
 """FastAPI application: the entry point of the CareerLens AI backend."""
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, Response, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
@@ -15,6 +17,11 @@ from app.tracker import router as tracker_router
 
 MAX_PDF_SIZE_BYTES = 5 * 1024 * 1024  # 5 MB
 
+# Websites allowed to call this API from a browser (comma-separated list).
+ALLOWED_ORIGINS = os.getenv(
+    "ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
+).split(",")
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,6 +32,12 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="CareerLens AI API", lifespan=lifespan)
 app.include_router(tracker_router)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 async def read_and_analyze(resume: UploadFile, job_description: str) -> dict:
