@@ -64,3 +64,42 @@ export async function listAnalyses() {
 export async function deleteAnalysis(analysisId) {
   await send(`/analyses/${analysisId}`, { method: "DELETE" });
 }
+
+// ---- Application tracker ----
+
+// Sends and receives JSON (the endpoints above use form data because they carry a file).
+function jsonRequest(method, body) {
+  return {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  };
+}
+
+export async function listApplications(status, sort) {
+  const params = new URLSearchParams({ sort });
+  if (status) {
+    params.set("status", status);
+  }
+  const response = await send(`/applications?${params}`);
+  return response.json();
+}
+
+export async function getApplicationStats() {
+  const response = await send("/applications/stats");
+  return response.json();
+}
+
+export async function createApplication(application) {
+  const response = await send("/applications", jsonRequest("POST", application));
+  return response.json();
+}
+
+export async function updateApplication(applicationId, changes) {
+  const response = await send(`/applications/${applicationId}`, jsonRequest("PATCH", changes));
+  return response.json();
+}
+
+export async function deleteApplication(applicationId) {
+  await send(`/applications/${applicationId}`, { method: "DELETE" });
+}

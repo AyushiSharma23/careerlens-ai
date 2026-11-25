@@ -3,13 +3,8 @@ import { Link } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 import { deleteAnalysis, listAnalyses } from "../api";
 import SkillList from "../components/SkillList";
+import { formatDate } from "../utils";
 
-function formatDate(value) {
-  // The server sends UTC times without a time zone marker, so add one before reading the date.
-  const hasZone = value.endsWith("Z") || /[+-]\d\d:\d\d$/.test(value);
-  const date = new Date(hasZone ? value : `${value}Z`);
-  return date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
-}
 
 export default function SavedPage() {
   const [analyses, setAnalyses] = useState([]);

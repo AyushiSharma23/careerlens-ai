@@ -281,7 +281,7 @@ mark {
   gap: 0.5rem 1.5rem;
 }
 
-.saved-item h3 {
+.saved-item-head h3 {
   margin: 0;
   font-size: 1.15rem;
 }
@@ -320,4 +320,92 @@ mark {
 
 .text-button:hover {
   text-decoration: underline;
+}
+
+/* Application tracker page */
+select {
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  background: var(--sheet);
+  color: var(--ink);
+  font: inherit;
+}
+
+select:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  margin: 0 0 1.5rem;
+}
+
+.stats div {
+  margin: 0;
+}
+
+.stats dt {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.stats dd {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.tracker-form {
+  margin-bottom: 1.5rem;
+}
+
+.tracker-form h3 {
+  margin-top: 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 1.25rem;
+}
+
+@media (min-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.list-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.list-controls div {
+  min-width: 12rem;
+}
+
+.application-item h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.status-picker {
+  min-width: 11rem;
+}
+
+.status-picker label {
+  margin-bottom: 0.2rem;
+  font-size: 0.95rem;
+}
+
+.notes {
+  margin: 0.75rem 0 0;
 }

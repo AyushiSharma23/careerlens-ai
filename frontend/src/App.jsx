@@ -1,6 +1,7 @@
 import { NavLink, Route, Routes } from "react-router-dom";
 import AnalyzePage from "./pages/AnalyzePage";
 import SavedPage from "./pages/SavedPage";
+import TrackerPage from "./pages/TrackerPage";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
               Analyze
             </NavLink>
             <NavLink to="/saved">Saved analyses</NavLink>
+            <NavLink to="/tracker">Tracker</NavLink>
           </nav>
         </div>
       </header>
@@ -24,6 +26,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<AnalyzePage />} />
         <Route path="/saved" element={<SavedPage />} />
+        <Route path="/tracker" element={<TrackerPage />} />
       </Routes>
     </>
   );
