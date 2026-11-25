@@ -32,7 +32,7 @@ body {
 .site-header-inner {
   max-width: 1080px;
   margin: 0 auto;
-  padding: 1.75rem 1.25rem 1.9rem;
+  padding: 1.75rem 1.25rem 1.5rem;
 }
 
 .site-header h1 {
@@ -45,6 +45,35 @@ body {
   margin: 0;
   max-width: 58ch;
   color: var(--board-text);
+}
+
+/* Navigation inside the header */
+.main-nav {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.1rem;
+}
+
+.main-nav a {
+  padding-bottom: 0.15rem;
+  border-bottom: 3px solid transparent;
+  color: var(--board-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.main-nav a:hover {
+  color: #ffffff;
+}
+
+.main-nav a.active {
+  border-bottom-color: var(--highlighter);
+  color: #ffffff;
+}
+
+.main-nav a:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
 }
 
 /* Page layout: form on the plain page, result on a sheet of paper */
@@ -62,6 +91,12 @@ body {
     grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
     align-items: start;
   }
+}
+
+.single-column {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
 }
 
 h2 {
@@ -92,6 +127,7 @@ label {
 }
 
 input[type="file"],
+input[type="text"],
 textarea {
   width: 100%;
   padding: 0.6rem 0.7rem;
@@ -108,7 +144,9 @@ textarea {
 
 input:focus-visible,
 textarea:focus-visible,
-button:focus-visible {
+button:focus-visible,
+summary:focus-visible,
+a:focus-visible {
   outline: 3px solid var(--ink);
   outline-offset: 3px;
 }
@@ -153,6 +191,11 @@ button:focus-visible {
 .status-text {
   margin: 0;
   color: var(--ink-soft);
+}
+
+.status-text a,
+.saved-note a {
+  color: var(--board);
 }
 
 .score {
@@ -201,4 +244,80 @@ mark {
 
 .plain-list li {
   margin-bottom: 0.45rem;
+}
+
+/* Save form inside the result sheet */
+.save-form {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+.save-form h3 {
+  margin-top: 0;
+}
+
+.saved-note {
+  margin: 1.5rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-weight: 700;
+}
+
+/* Saved analyses page */
+.saved-list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.saved-item-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+}
+
+.saved-item h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.saved-score {
+  margin: 0;
+  font-weight: 700;
+}
+
+.saved-item details {
+  margin-top: 0.9rem;
+}
+
+.saved-item summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.saved-item .explanation {
+  margin-top: 1rem;
+}
+
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1rem;
+  padding: 0.3rem 0;
+  border: none;
+  background: none;
+  color: var(--red-pen);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.text-button:hover {
+  text-decoration: underline;
 }

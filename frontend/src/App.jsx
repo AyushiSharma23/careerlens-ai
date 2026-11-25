@@ -1,28 +1,8 @@
-import { useState } from "react";
-import { analyzeResume } from "./api";
-import UploadForm from "./components/UploadForm";
-import ResultPanel from "./components/ResultPanel";
+import { NavLink, Route, Routes } from "react-router-dom";
+import AnalyzePage from "./pages/AnalyzePage";
+import SavedPage from "./pages/SavedPage";
 
 export default function App() {
-  const [result, setResult] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  async function handleAnalyze(resumeFile, jobDescription) {
-    setIsLoading(true);
-    setError("");
-    setResult(null);
-
-    try {
-      const data = await analyzeResume(resumeFile, jobDescription);
-      setResult(data);
-    } catch (problem) {
-      setError(problem.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
   return (
     <>
       <header className="site-header">
@@ -32,20 +12,19 @@ export default function App() {
             Upload your resume, paste a job posting, and see which skills the job asks for that
             your resume does not mention yet.
           </p>
+          <nav className="main-nav" aria-label="Main">
+            <NavLink to="/" end>
+              Analyze
+            </NavLink>
+            <NavLink to="/saved">Saved analyses</NavLink>
+          </nav>
         </div>
       </header>
 
-      <main className="layout">
-        <section aria-labelledby="form-heading">
-          <h2 id="form-heading">Your resume and the job</h2>
-          <UploadForm onAnalyze={handleAnalyze} isLoading={isLoading} />
-        </section>
-
-        <section className="sheet" aria-labelledby="result-heading" aria-live="polite">
-          <h2 id="result-heading">Comparison</h2>
-          <ResultPanel result={result} isLoading={isLoading} error={error} />
-        </section>
-      </main>
+      <Routes>
+        <Route path="/" element={<AnalyzePage />} />
+        <Route path="/saved" element={<SavedPage />} />
+      </Routes>
     </>
   );
 }
